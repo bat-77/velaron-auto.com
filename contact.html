@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Velaron Auto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Velaron Auto" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="import.html">Import</a></li>
+                <li><a href="arbitrage.html">Arbitrage</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Ready to import? Let's talk.</p>
+        </div>
+    </header>
+
+    <section class="section section-dark">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-tag">Get in Touch</span>
+                    <h2>Start Your Import</h2>
+                    <p>Whether you're a dealership looking for volume imports or a private buyer seeking a specific vehicle, we're here to help.</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <span class="contact-icon">📧</span>
+                            <div>
+                                <strong>Email</strong>
+                                <p>info@velaronauto.ie</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <span class="contact-icon">📱</span>
+                            <div>
+                                <strong>WhatsApp / Telegram</strong>
+                                <p>+353 XX XXX XXXX</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <span class="contact-icon">🏢</span>
+                            <div>
+                                <strong>Dealership Partners</strong>
+                                <p>Priority service for registered dealers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-note">
+                        <p><strong>Note for private buyers:</strong> We strongly encourage working with one of our dealership partners for the best rates and priority handling. Private imports carry a service premium.</p>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! We will be in touch shortly.');">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" placeholder="+353 XX XXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>I am a</label>
+                            <select>
+                                <option>Dealership</option>
+                                <option>Private Buyer</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Car Interest</label>
+                            <input type="text" placeholder="e.g. Mercedes G63 2020">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="4" placeholder="Tell us what you're looking for..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo.png" alt="Velaron Auto" class="footer-logo">
+                    <p>Japan's finest vehicles, imported to Ireland with precision and transparency.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigate</h4>
+                    <a href="index.html">Home</a>
+                    <a href="import.html">Import</a>
+                    <a href="arbitrage.html">Arbitrage</a>
+                    <a href="gallery.html">Gallery</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Velaron Auto. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

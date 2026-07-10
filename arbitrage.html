@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrage Intelligence — Velaron Auto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Velaron Auto" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="import.html">Import</a></li>
+                <li><a href="arbitrage.html" class="active">Arbitrage</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Arbitrage Intelligence</h1>
+            <p>Real market data. Real margins. Real opportunities.</p>
+        </div>
+    </header>
+
+    <!-- TOP 5 BEST DEALS -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Top Picks</span>
+                <h2>Best 5 Cars to Import Right Now</h2>
+                <p>Ranked by profit margin at cheapest Japanese auction price.</p>
+            </div>
+            <div class="top5-grid" id="top5Grid">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CONFIGURABLE TABLE -->
+    <section class="section section-black">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Full Database</span>
+                <h2>All Tracked Vehicles</h2>
+            </div>
+
+            <div class="table-controls">
+                <div class="control-group">
+                    <label>Sort By</label>
+                    <select id="sortBy" onchange="renderTable()">
+                        <option value="profit_pct_desc">Best Margin %</option>
+                        <option value="profit_eur_desc">Most Profit €</option>
+                        <option value="jp_price_asc">Lowest JP Price</option>
+                        <option value="ie_price_desc">Highest IE Price</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Version</label>
+                    <select id="versionFilter" onchange="renderTable()">
+                        <option value="all">All Versions</option>
+                        <option value="V1">V1 (2014–2020)</option>
+                        <option value="V2">V2 (2021–2026)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Category</label>
+                    <select id="categoryFilter" onchange="renderTable()">
+                        <option value="all">All Categories</option>
+                        <option value="Ultra Luxury">Ultra Luxury</option>
+                        <option value="High Luxury">High Luxury</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="arbitrage-table" id="arbitrageTable">
+                    <thead>
+                        <tr>
+                            <th>Car</th>
+                            <th>Version</th>
+                            <th>JP Cheap</th>
+                            <th>JP Avg</th>
+                            <th>JP Exp</th>
+                            <th>IE Cheap</th>
+                            <th>IE Avg</th>
+                            <th>IE Exp</th>
+                            <th>Import Cost</th>
+                            <th>Profit</th>
+                            <th>Margin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo.png" alt="Velaron Auto" class="footer-logo">
+                    <p>Japan's finest vehicles, imported to Ireland with precision and transparency.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigate</h4>
+                    <a href="index.html">Home</a>
+                    <a href="import.html">Import</a>
+                    <a href="arbitrage.html">Arbitrage</a>
+                    <a href="gallery.html">Gallery</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Velaron Auto. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/cars-data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Render Top 5
+        function renderTop5() {
+            const sorted = [...CAR_DATA].sort((a, b) => b.profit_cheap_pct - a.profit_cheap_pct);
+            const top5 = sorted.slice(0, 5);
+            const grid = document.getElementById('top5Grid');
+
+            grid.innerHTML = top5.map((car, i) => {
+                const profitClass = car.profit_cheap_eur > 0 ? 'positive' : 'negative';
+                const status = car.profit_cheap_eur > 0 ? '✅ PROFIT' : '❌ LOSS';
+                return `
+                    <a href="car-detail.html?id=${car.id}" class="top5-card">
+                        <div class="top5-rank">#${i + 1}</div>
+                        <div class="top5-img">
+                            <img src="${car.image}" alt="${car.make} ${car.model}">
+                        </div>
+                        <div class="top5-info">
+                            <span class="top5-version">${car.version} · ${car.year_range}</span>
+                            <h3>${car.make} ${car.model}</h3>
+                            <div class="top5-stats">
+                                <div>
+                                    <span class="label">JP Price</span>
+                                    <span class="value">€${car.jp_cheap_eur.toLocaleString()}</span>
+                                </div>
+                                <div>
+                                    <span class="label">IE Price</span>
+                                    <span class="value">€${car.ie_avg_eur.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            <div class="top5-profit ${profitClass}">
+                                <span class="profit-amount">€${car.profit_cheap_eur.toLocaleString()}</span>
+                                <span class="profit-pct">${car.profit_cheap_pct}%</span>
+                                <span class="profit-status">${status}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        // Render Table
+        function renderTable() {
+            const sortBy = document.getElementById('sortBy').value;
+            const version = document.getElementById('versionFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+
+            let filtered = [...CAR_DATA];
+
+            if (version !== 'all') filtered = filtered.filter(c => c.version === version);
+            if (category !== 'all') filtered = filtered.filter(c => c.category === category);
+
+            if (sortBy === 'profit_pct_desc') filtered.sort((a, b) => b.profit_cheap_pct - a.profit_cheap_pct);
+            else if (sortBy === 'profit_eur_desc') filtered.sort((a, b) => b.profit_cheap_eur - a.profit_cheap_eur);
+            else if (sortBy === 'jp_price_asc') filtered.sort((a, b) => a.jp_cheap_eur - b.jp_cheap_eur);
+            else if (sortBy === 'ie_price_desc') filtered.sort((a, b) => b.ie_avg_eur - a.ie_avg_eur);
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = filtered.map(car => {
+                const profitClass = car.profit_cheap_eur > 0 ? 'positive' : 'negative';
+                return `
+                    <tr onclick="window.location.href='car-detail.html?id=${car.id}'" style="cursor:pointer;">
+                        <td>
+                            <div class="car-cell">
+                                <a href="${car.source || '#'}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                                    <img src="${car.image}" alt="${car.make} ${car.model}" class="car-thumb">
+                                </a>
+                                <div>
+                                    <strong>${car.make} ${car.model}</strong>
+                                    <small>${car.year_range}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="version-badge">${car.version}</span></td>
+                        <td>€${car.jp_cheap_eur.toLocaleString()}</td>
+                        <td>€${car.jp_avg_eur.toLocaleString()}</td>
+                        <td>€${car.jp_exp_eur.toLocaleString()}</td>
+                        <td>€${car.ie_cheap_eur.toLocaleString()}</td>
+                        <td>€${car.ie_avg_eur.toLocaleString()}</td>
+                        <td>€${car.ie_exp_eur.toLocaleString()}</td>
+                        <td>€${car.import_cheap_eur.toLocaleString()}</td>
+                        <td class="${profitClass}">€${car.profit_cheap_eur.toLocaleString()}</td>
+                        <td class="${profitClass}">${car.profit_cheap_pct}%</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        renderTop5();
+        renderTable();
+    </script>
+</body>
+</html>

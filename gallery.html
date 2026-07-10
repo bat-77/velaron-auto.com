@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery — Velaron Auto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Velaron Auto" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="import.html">Import</a></li>
+                <li><a href="arbitrage.html">Arbitrage</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Gallery</h1>
+            <p>Vehicles sourced from Japan — front, rear, and interior views.</p>
+        </div>
+    </header>
+
+    <section class="section section-dark">
+        <div class="container">
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <img id="lightboxImg" src="" alt="">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo.png" alt="Velaron Auto" class="footer-logo">
+                    <p>Japan's finest vehicles, imported to Ireland with precision and transparency.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigate</h4>
+                    <a href="index.html">Home</a>
+                    <a href="import.html">Import</a>
+                    <a href="arbitrage.html">Arbitrage</a>
+                    <a href="gallery.html">Gallery</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Velaron Auto. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        const galleryCars = [
+            { name: "Mercedes-Benz G63 AMG", year: "2020", front: "https://commons.wikimedia.org/wiki/Special:FilePath/2013_Mercedes-Benz_G63_AMG_(8403246669).jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Mercedes-AMG_G_63_(51754083922).jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/2013_Mercedes-Benz_G63_AMG_(8403246669).jpg?width=700", source: "https://en.wikipedia.org/wiki/Mercedes-Benz_G-Class" },
+            { name: "Porsche 911 Carrera", year: "2019", front: "https://commons.wikimedia.org/wiki/Special:FilePath/Porsche_911_Carrera_(25824889023).jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/2003_Porsche_911_Carrera_4S_coupe,_front_left,_06-08-2024.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/Porsche_911_Carrera_(25824889023).jpg?width=700", source: "https://en.wikipedia.org/wiki/Porsche_911" },
+            { name: "BMW i8", year: "2018", front: "https://commons.wikimedia.org/wiki/Special:FilePath/BMW-i8.JPG?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/BMW-i8.JPG?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/BMW-i8.JPG?width=700", source: "https://en.wikipedia.org/wiki/BMW_i8" },
+            { name: "Ferrari 488 GTB", year: "2017", front: "https://commons.wikimedia.org/wiki/Special:FilePath/Ferrari_488_GTB.jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Ferrari_488_GTB.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/Ferrari_488_GTB.jpg?width=700", source: "https://en.wikipedia.org/wiki/Ferrari_488" },
+            { name: "Lamborghini Urus", year: "2021", front: "https://commons.wikimedia.org/wiki/Special:FilePath/2023_Lamborghini_Urus_Performante_2.jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/2018_Lamborghini_Urus.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/2018_Lamborghini_Urus.jpg?width=700", source: "https://en.wikipedia.org/wiki/Lamborghini_Urus" },
+            { name: "Rolls-Royce Ghost", year: "2019", front: "https://commons.wikimedia.org/wiki/Special:FilePath/Rolls-Royce_Ghost.JPG?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Rolls_Royce_Ghost_2015_(23124366942).jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/Rolls-Royce_Ghost.JPG?width=700", source: "https://en.wikipedia.org/wiki/Rolls-Royce_Ghost" },
+            { name: "Nissan GT-R", year: "2018", front: "https://commons.wikimedia.org/wiki/Special:FilePath/NISSAN_GT-R_(CBA-R35)_front.JPG?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Nissan_GT-R_Nismo_(R35),_2022,_front.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/NISSAN_GT-R_(CBA-R35)_front.JPG?width=700", source: "https://en.wikipedia.org/wiki/Nissan_GT-R" },
+            { name: "Jaguar F-Type R", year: "2016", front: "https://commons.wikimedia.org/wiki/Special:FilePath/2021_Jaguar_F-Type_R-Dynamic_facelift.jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/2021_Jaguar_F-Type_R-Dynamic_facelift.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/2021_Jaguar_F-Type_R-Dynamic_facelift.jpg?width=700", source: "https://en.wikipedia.org/wiki/Jaguar_F-Type" },
+            { name: "Toyota GR Supra", year: "2020", front: "https://commons.wikimedia.org/wiki/Special:FilePath/Toyota_GR_Supra_--_2021.jpg?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Toyota_GR_Supra_--_2021.jpg?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/Toyota_GR_Supra_--_2021.jpg?width=700", source: "https://en.wikipedia.org/wiki/Toyota_GR_Supra" },
+            { name: "Lexus LFA", year: "2011", front: "https://commons.wikimedia.org/wiki/Special:FilePath/Lexus_LFA_001.JPG?width=700", rear: "https://commons.wikimedia.org/wiki/Special:FilePath/Lexus_LFA_001.JPG?width=700", interior: "https://commons.wikimedia.org/wiki/Special:FilePath/Lexus_LFA_interior.jpg?width=700", source: "https://en.wikipedia.org/wiki/Lexus_LFA" },
+        ];
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = galleryCars.map((car, i) => `
+                <div class="gallery-frame">
+                    <div class="gallery-frame-header">
+                        <h3><a href="${car.source}" target="_blank" rel="noopener" style="color:inherit;">${car.name}</a></h3>
+                        <span class="gallery-year">${car.year}</span>
+                    </div>
+                    <div class="gallery-frame-images">
+                        <a href="${car.front}" class="gallery-img-link" onclick="openLightbox('${car.front}', '${car.name} — Front'); return false;">
+                            <img src="${car.front}" alt="${car.name} Front">
+                            <span class="gallery-img-label">Front</span>
+                        </a>
+                        <a href="${car.rear}" class="gallery-img-link" onclick="openLightbox('${car.rear}', '${car.name} — Rear'); return false;">
+                            <img src="${car.rear}" alt="${car.name} Rear">
+                            <span class="gallery-img-label">Rear</span>
+                        </a>
+                        <a href="${car.interior}" class="gallery-img-link" onclick="openLightbox('${car.interior}', '${car.name} — Interior'); return false;">
+                            <img src="${car.interior}" alt="${car.name} Interior">
+                            <span class="gallery-img-label">Interior</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openLightbox(src, caption) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxCaption').textContent = caption;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        renderGallery();
+    </script>
+</body>
+</html>

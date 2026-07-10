@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Details — Velaron Auto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Velaron Auto" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="import.html">Import</a></li>
+                <li><a href="arbitrage.html" class="active">Arbitrage</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="detail-hero" id="detailHero">
+        <!-- Filled by JS -->
+    </div>
+
+    <!-- Three Price Cards -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Import Cost Scenarios</span>
+                <h2>What You Pay to Bring It In</h2>
+                <p>Based on cheapest, average, and most expensive Japanese market prices.</p>
+            </div>
+            <div class="price-cards-three" id="priceCards">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Comparison Table -->
+    <section class="section section-black">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Market Comparison</span>
+                <h2>Japan vs Ireland — Full Breakdown</h2>
+            </div>
+            <div class="table-wrapper">
+                <table class="detail-table" id="detailTable">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Cheapest</th>
+                            <th>Average</th>
+                            <th>Most Expensive</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailTableBody">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verdict Card -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="verdict-card" id="verdictCard">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo.png" alt="Velaron Auto" class="footer-logo">
+                    <p>Japan's finest vehicles, imported to Ireland with precision and transparency.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigate</h4>
+                    <a href="index.html">Home</a>
+                    <a href="import.html">Import</a>
+                    <a href="arbitrage.html">Arbitrage</a>
+                    <a href="gallery.html">Gallery</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Velaron Auto. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/cars-data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('id');
+        const car = CAR_DATA.find(c => c.id === carId);
+
+        if (!car) {
+            document.body.innerHTML = '<div class="container" style="padding:100px 20px;text-align:center;"><h1>Car not found</h1><a href="arbitrage.html" class="btn btn-primary">Back to Arbitrage</a></div>';
+        } else {
+            // Hero Section
+            document.getElementById('detailHero').innerHTML = `
+                <div class="detail-hero-img">
+                    <img src="${car.image}" alt="${car.make} ${car.model}">
+                </div>
+                <div class="detail-hero-overlay"></div>
+                <div class="detail-hero-content">
+                    <span class="detail-version">${car.version} · ${car.year_range}</span>
+                    <h1>${car.make} ${car.model}</h1>
+                    <p class="detail-meta">${car.category} · ${car.fuel} · CO₂ ${car.co2}g/km</p>
+                    <a href="arbitrage.html" class="btn btn-outline">← Back to Arbitrage</a>
+                </div>
+            `;
+
+            // Price Cards
+            const scenarios = [
+                { label: 'Cheapest in Japan', price: car.jp_cheap_eur, importCost: car.import_cheap_eur, profit: car.profit_cheap_eur, profitPct: car.profit_cheap_pct, color: 'green' },
+                { label: 'Average in Japan', price: car.jp_avg_eur, importCost: car.import_avg_eur, profit: car.profit_avg_eur, profitPct: car.profit_avg_pct, color: 'blue' },
+                { label: 'Most Expensive in Japan', price: car.jp_exp_eur, importCost: car.import_exp_eur, profit: car.profit_exp_eur, profitPct: car.profit_exp_pct, color: 'orange' }
+            ];
+
+            document.getElementById('priceCards').innerHTML = scenarios.map(s => {
+                const profitClass = s.profit > 0 ? 'positive' : 'negative';
+                const status = s.profit > 0 ? 'PROFITABLE' : 'NOT VIABLE';
+                return `
+                    <div class="price-card ${s.color}">
+                        <div class="price-card-header">
+                            <span class="price-label">${s.label}</span>
+                            <span class="price-tag">€${s.price.toLocaleString()}</span>
+                        </div>
+                        <div class="price-card-body">
+                            <div class="price-row">
+                                <span>Car Price (JP)</span>
+                                <span>€${s.price.toLocaleString()}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>CIF + Shipping</span>
+                                <span>€1,650</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Customs Duty (10%)</span>
+                                <span>€${Math.round((s.price + 1650) * 0.1).toLocaleString()}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>VAT (23%)</span>
+                                <span>€${Math.round(((s.price + 1650) * 1.1) * 0.23).toLocaleString()}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>VRT + NOx</span>
+                                <span>€${Math.round(s.importCost - s.price - 1650 - ((s.price + 1650) * 0.1) - (((s.price + 1650) * 1.1) * 0.23) - 150).toLocaleString()}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Fees</span>
+                                <span>€150</span>
+                            </div>
+                            <div class="price-divider"></div>
+                            <div class="price-row total">
+                                <span>Total Import Cost</span>
+                                <span>€${s.importCost.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <div class="price-card-footer ${profitClass}">
+                            <div>
+                                <span class="footer-label">vs Irish Avg (€${car.ie_avg_eur.toLocaleString()})</span>
+                                <span class="footer-profit">€${s.profit.toLocaleString()}</span>
+                            </div>
+                            <span class="footer-pct">${s.profitPct}%</span>
+                        </div>
+                        <div class="price-status ${profitClass}">${status}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Detail Table
+            const rows = [
+                ['Japan Price (¥)', `¥${car.jp_cheap_jpy.toLocaleString()}`, `¥${car.jp_avg_jpy.toLocaleString()}`, `¥${car.jp_exp_jpy.toLocaleString()}`],
+                ['Japan Price (€)', `€${car.jp_cheap_eur.toLocaleString()}`, `€${car.jp_avg_eur.toLocaleString()}`, `€${car.jp_exp_eur.toLocaleString()}`],
+                ['Japan Mileage', `${car.jp_mileage_km.toLocaleString()} km`, `${car.jp_mileage_km.toLocaleString()} km`, `${car.jp_mileage_km.toLocaleString()} km`],
+                ['Ireland Price (€)', `€${car.ie_cheap_eur.toLocaleString()}`, `€${car.ie_avg_eur.toLocaleString()}`, `€${car.ie_exp_eur.toLocaleString()}`],
+                ['Ireland Mileage', `${car.ie_mileage_km.toLocaleString()} km`, `${car.ie_mileage_km.toLocaleString()} km`, `${car.ie_mileage_km.toLocaleString()} km`],
+                ['Import Cost (€)', `€${car.import_cheap_eur.toLocaleString()}`, `€${car.import_avg_eur.toLocaleString()}`, `€${car.import_exp_eur.toLocaleString()}`],
+                ['Potential Profit (€)', `€${car.profit_cheap_eur.toLocaleString()}`, `€${car.profit_avg_eur.toLocaleString()}`, `€${car.profit_exp_eur.toLocaleString()}`],
+                ['Profit Margin', `${car.profit_cheap_pct}%`, `${car.profit_avg_pct}%`, `${car.profit_exp_pct}%`],
+            ];
+
+            document.getElementById('detailTableBody').innerHTML = rows.map(row => {
+                const profitClass = row[0].includes('Profit') && parseFloat(row[1].replace(/[^0-9.-]/g, '')) > 0 ? 'positive' : 
+                                   row[0].includes('Profit') && parseFloat(row[1].replace(/[^0-9.-]/g, '')) < 0 ? 'negative' : '';
+                return `
+                    <tr>
+                        <td><strong>${row[0]}</strong></td>
+                        <td class="${row[0].includes('Profit') ? (parseFloat(row[1].replace(/[^0-9.-]/g, '')) > 0 ? 'positive' : 'negative') : ''}">${row[1]}</td>
+                        <td class="${row[0].includes('Profit') ? (parseFloat(row[2].replace(/[^0-9.-]/g, '')) > 0 ? 'positive' : 'negative') : ''}">${row[2]}</td>
+                        <td class="${row[0].includes('Profit') ? (parseFloat(row[3].replace(/[^0-9.-]/g, '')) > 0 ? 'positive' : 'negative') : ''}">${row[3]}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Verdict Card
+            const bestProfit = Math.max(car.profit_cheap_eur, car.profit_avg_eur, car.profit_exp_eur);
+            const bestPct = Math.max(car.profit_cheap_pct, car.profit_avg_pct, car.profit_exp_pct);
+            const isViable = bestProfit > 0;
+
+            document.getElementById('verdictCard').innerHTML = `
+                <div class="verdict-header">
+                    <span class="verdict-icon">${isViable ? '✅' : '❌'}</span>
+                    <h2>Overall Verdict</h2>
+                </div>
+                <div class="verdict-body">
+                    <div class="verdict-main ${isViable ? 'positive' : 'negative'}">
+                        <span class="verdict-label">${isViable ? 'VIABLE FOR IMPORT' : 'NOT RECOMMENDED'}</span>
+                        <span class="verdict-profit">Best Case: €${bestProfit.toLocaleString()}</span>
+                        <span class="verdict-pct">${bestPct}% margin</span>
+                    </div>
+                    <div class="verdict-details">
+                        <p><strong>At cheapest Japanese price:</strong> ${car.profit_cheap_eur > 0 ? `€${car.profit_cheap_eur.toLocaleString()} profit (${car.profit_cheap_pct}%)` : `Loss of €${Math.abs(car.profit_cheap_eur).toLocaleString()}`}</p>
+                        <p><strong>At average Japanese price:</strong> ${car.profit_avg_eur > 0 ? `€${car.profit_avg_eur.toLocaleString()} profit (${car.profit_avg_pct}%)` : `Loss of €${Math.abs(car.profit_avg_eur).toLocaleString()}`}</p>
+                        <p><strong>At expensive Japanese price:</strong> ${car.profit_exp_eur > 0 ? `€${car.profit_exp_eur.toLocaleString()} profit (${car.profit_exp_pct}%)` : `Loss of €${Math.abs(car.profit_exp_eur).toLocaleString()}`}</p>
+                        <p class="verdict-note">${isViable 
+                            ? 'This car shows positive margins at auction prices. We recommend bidding at the lower end of the Japanese market to maximize profit.' 
+                            : 'Importing this car is not financially viable under current market conditions. The Japan→Ireland price gap is too small to absorb Irish import taxes.'}</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
